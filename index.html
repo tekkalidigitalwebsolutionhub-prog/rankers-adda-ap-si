@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankers Adda - AP Police SI Prelims Elite Test Series</title>
+    <style>
+        :root {
+            --primary-color: #1e3799;
+            --secondary-color: #4a69bd;
+            --accent-color: #ff4757;
+            --bg-color: #f1f2f6;
+            --card-bg: #ffffff;
+            --text-color: #2f3640;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 10px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 10px auto;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-badge {
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            letter-spacing: 1px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+        .header p {
+            margin: 0;
+            font-size: 13px;
+            color: #57606f;
+        }
+        .top-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .test-selector {
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #ced6e0;
+            flex-grow: 1;
+            background: #fff;
+        }
+        .timer {
+            background: var(--accent-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+        .section-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .question-box {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2f3640;
+            line-height: 1.6;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .option-item {
+            background: #f8f9fa;
+            border: 1px solid #dfe4ea;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .option-item:hover {
+            background: #f1f2f6;
+            border-color: var(--secondary-color);
+        }
+        .option-item.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: bold;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            flex-grow: 1;
+        }
+        .btn:hover {
+            background: #092063;
+        }
+        .palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 20px;
+            max-height: 140px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dfe4ea;
+            border-radius: 6px;
+        }
+        .palette-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 13px;
+            border: 1px solid #ced6e0;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #ffffff;
+            font-weight: bold;
+        }
+        .palette-btn.answered {
+            background: #2ed573;
+            color: white;
+            border-color: #2ed573;
+        }
+        .palette-btn.current {
+            border: 2px solid var(--primary-color);
+            background: #e8f4fd;
+        }
+        .solution-box {
+            background: #f1f2f6;
+            border-left: 4px solid var(--secondary-color);
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        @media(min-width: 768px) {
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            body {
+                padding: 20px;
+            }
+            .container {
+                padding: 30px;
+            }
+            .btn {
+                flex-grow: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="header">
+        <div class="brand-title">
+            <div class="logo-badge">RA</div>
+            <div>
+                <h2>Rankers Adda</h2>
+                <p>AP Police SI Prelims Elite Test Series (తెలుగు మీడియం)</p>
+            </div>
+        </div>
+        <div class="timer" id="timer">గడువు: 180:00</div>
+    </div>
+
+    <div class="top-controls" id="menu-screen">
+        <select id="testSelect" class="test-selector">
+            <script>
+                for(let i=1; i<=60; i++) {
+                    document.write(`<option value="${i}">దినం ${i} - AP SI గ్రాండ్ టెస్ట్ (200 ప్రశ్నలు)</option>`);
+                }
+            </script>
+        </select>
+        <button class="btn" onclick="startTest()">టెస్ట్ ప్రారంభించండి</button>
+    </div>
+
+    <div id="quiz-container" style="display:none;">
+        <div id="section-title" class="section-badge">Section</div>
+        <div id="question-tracker" style="color: #57606f; font-size: 14px; margin-bottom: 8px; font-weight: bold;"></div>
+        <div class="question-box" id="question-text"></div>
+        <ul class="options-list" id="options-container"></ul>
+
+        <div class="btn-container">
+            <button class="btn" id="prev-btn" onclick="prevQuestion()" style="display:none; background: #747d8c;">మునుపటి (Previous)</button>
+            <button class="btn" id="next-btn" onclick="nextQuestion()">తర్వాతి (Next)</button>
+        </div>
+
+        <div style="margin-top: 20px; font-weight: bold; font-size: 14px; color: #2f3640;">ప్రశ్నల పాలెట్ (Question Palette):</div>
+        <div class="palette" id="question-palette"></div>
+    </div>
+</div>
+
+<script>
+    let currentDay = 1;
+    let currentIdx = 0;
+    let questions = [];
+    let selectedAnswers = {};
+    let timerInterval;
+    let timeLeft = 180 * 60;
+
+    async function startTest() {
+        currentDay = document.getElementById("testSelect").value;
+        try {
+            let response = await fetch(`data/day${currentDay}.json`);
+            if (!response.ok) throw new Error("Failed to load");
+            
+            questions = await response.json();
+            currentIdx = 0;
+            selectedAnswers = {};
+
+            document.getElementById("menu-screen").style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+
+            loadQuestion();
+            buildPalette();
+            startTimer();
+        } catch (error) {
+            alert("టెస్ట్ డేటా లోడ్ చేయడంలో సమస్య ఏర్పడింది.");
+        }
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timeLeft = 180 * 60;
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                calculateScore();
+            } else {
+                timeLeft--;
+                let hrs = Math.floor(timeLeft / 3600);
+                let mins = Math.floor((timeLeft % 3600) / 60);
+                let secs = timeLeft % 60;
+                document.getElementById("timer").innerText = `మిగిలిన సమయం: ${hrs}:${mins < 10 ? '0':''}${mins}:${secs < 10 ? '0':''}${secs}`;
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        let qData = questions[currentIdx];
+        document.getElementById("section-title").innerText = qData.section;
+        document.getElementById("question-tracker").innerText = `ప్రశ్న ${currentIdx + 1} / 200`;
+        document.getElementById("question-text").innerText = qData.q;
+
+        let optionsHTML = "";
+        qData.opts.forEach((opt, idx) => {
+            let isSelected = selectedAnswers[currentIdx] === idx ? "selected" : "";
+            optionsHTML += `<li class="option-item ${isSelected}" onclick="selectOption(${idx})">${opt}</li>`;
+        });
+        document.getElementById("options-container").innerHTML = optionsHTML;
+
+        document.getElementById("prev-btn").style.display = currentIdx > 0 ? "block" : "none";
+        document.getElementById("next-btn").innerText = currentIdx === questions.length - 1 ? "టెస్ట్ సబ్మిట్ చేయండి" : "తర్వాతి (Next)";
+        updatePaletteStyles();
+    }
+
+    function selectOption(idx) {
+        selectedAnswers[currentIdx] = idx;
+        loadQuestion();
+    }
+
+    function nextQuestion() {
+        if (currentIdx < questions.length - 1) {
+            currentIdx++;
+            loadQuestion();
+        } else {
+            if(confirm("మీరు పూర్తి 200 ప్రశ్నల గ్రాండ్ టెస్ట్ ను సబ్మిట్ చేయాలనుకుంటున్నారా?")) {
+                calculateScore();
+            }
+        }
+    }
+
+    function prevQuestion() {
+        if (currentIdx > 0) {
+            currentIdx--;
+            loadQuestion();
+        }
+    }
+
+    function jumpToQuestion(idx) {
+        currentIdx = idx;
+        loadQuestion();
+    }
+
+    function buildPalette() {
+        let html = "";
+        for(let i=0; i<questions.length; i++) {
+            html += `<button class="palette-btn" id="pal-${i}" onclick="jumpToQuestion(${i})">${i+1}</button>`;
+        }
+        document.getElementById("question-palette").innerHTML = html;
+    }
+
+    function updatePaletteStyles() {
+        for(let i=0; i<questions.length; i++) {
+            let b = document.getElementById(`pal-${i}`);
+            if(b) {
+                b.className = "palette-btn";
+                if(selectedAnswers[i] !== undefined) b.classList.add("answered");
+                if(i === currentIdx) b.classList.add("current");
+            }
+        }
+    }
+
+    function calculateScore() {
+        clearInterval(timerInterval);
+        let correctCount = 0, wrongCount = 0, unattempted = 0;
+
+        questions.forEach((q, idx) => {
+            let ans = selectedAnswers[idx];
+            if(ans === undefined) unattempted++;
+            else if(ans === q.correct) correctCount++;
+            else wrongCount++;
+        });
+
+        let summaryHtml = `
+            <div style="padding: 10px;">
+                <h2 style="color: #1e3799; text-align: center;">దినం ${currentDay} - AP SI గ్రాండ్ టెస్ట్ ఫలితాలు</h2>
+                <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; text-align: center; font-size: 16px; margin-bottom: 20px;">
+                    ✅ <b>సరియైనవి:</b> ${correctCount} | ❌ <b>తప్పులు:</b> ${wrongCount} | ⚪ <b>వదిలేసినవి:</b> ${unattempted}
+                    <h3 style="color: #1e3799; margin-top: 10px;">మొత్తం స్కోర్: ${correctCount} / 200 Marks</h3>
+                </div>
+                <h3>వివరణాత్మక జవాబులు (Detailed Solutions):</h3>
+        `;
+
+        questions.questions = questions || [];
+        questions.forEach((q, idx) => {
+            let userAns = selectedAnswers[idx];
+            let userAnsText = userAns !== undefined ? q.opts[userAns] : "జవాబు రాయలేదు";
+            let correctAnsText = q.opts[q.correct];
+            let isCorrect = userAns === q.correct;
+
+            summaryHtml += `
+                <div style="margin-bottom: 15px; padding: 12px; background: #fff; border: 1px solid #dfe4ea; border-radius: 6px;">
+                    <div style="font-weight: bold; margin-bottom: 6px;">${q.q}</div>
+                    <div style="font-size: 14px; color: ${isCorrect ? '#2ed573' : '#ff4757'};">మీ సమాధానం: ${userAnsText}</div>
+                    <div style="font-size: 14px; color: #2ed573; margin-top: 2px;">సరైన సమాధానం: ${correctAnsText}</div>
+                    <div class="solution-box"><b>వివరణ:</b><br>${q.exp}</div>
+                </div>
+            `;
+        });
+
+        summaryHtml += `
+                <button class="btn" onclick="location.reload()" style="display: block; width: 100%; margin-top: 20px;">మెనూకి వెళ్ళండి (Back to Home)</button>
+            </div>
+        `;
+
+        document.getElementById("app").innerHTML = summaryHtml;
+    }
+</script>
+
+</body>
+</html>
